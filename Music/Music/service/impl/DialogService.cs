@@ -7,6 +7,7 @@ using System.Windows;
 using Music.dto;
 using Music.dto.dto;
 using Music.dao;
+using Music.db;
 
 namespace Music.service.impl
 {
@@ -34,8 +35,8 @@ namespace Music.service.impl
                 }
                 Dialog dialog = new Dialog();
                 dialog.UserMessage = listMessages;
-                User ownUser = userDao.readById(ownerId);
-                User otherUser;
+                DUser ownUser = userDao.readById(ownerId);
+                DUser otherUser;
                 if (getId != ownerId)
                 {
                     otherUser = userDao.readById(getId);
@@ -84,7 +85,7 @@ namespace Music.service.impl
             return false;
         }
 
-        public Dialog getDialogByUsers(List<Dialog> dialogs, User ownUser, User otherUser)
+        public Dialog getDialogByUsers(List<Dialog> dialogs, DUser ownUser, DUser otherUser)
         {
             Dialog dialog = new Dialog();
             foreach (Dialog d in dialogs)

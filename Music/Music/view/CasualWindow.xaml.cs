@@ -27,8 +27,7 @@ namespace Music.view
         private Controller controller;
         private MediaPlayer mediaPlayer;
         private SearchMusic searchMusic;
-        private static readonly string LISTEN_PATH = @"D:\music_from_cursach\";
-        private static readonly string CONTENT_TYPE = ".mp3";
+      
         private string songDuraction;
         public CasualWindow()
         {
@@ -105,15 +104,18 @@ namespace Music.view
             Song song = (Song)SongDrid.SelectedItem;
             if (song != null)
             {
-                
-                if (!isExistInFolder(song.Name))
-                {
-                    controller.complete(TextCommand.READ_GOOGLE_SONG_BY_ID, song.Id);
-                }
+
+                //if (!isExistInFolder(song.Name))
+                //{
+                //    controller.complete(TextCommand.READ_GOOGLE_SONG_BY_ID, song.Id);
+                //}
+
+                string fileName = String.Format("{0}\\{1}", ExtraField.LISTEN_PATH, song.Name + ExtraField.CONTENT_TYPE.ToString());
+
+                File.WriteAllBytes(fileName, song.MultimediaData);
+
+                mediaPlayer.Open(new Uri(ExtraField.LISTEN_PATH + song.Name + ExtraField.CONTENT_TYPE));
                
-                mediaPlayer.Open(new Uri(LISTEN_PATH + song.Name + CONTENT_TYPE));
-                //song.NumberOfPlays++;
-                //controller.complete(TextCommand.UPDATE_SONG, new object[] { song.Id, song });
 
                 songDuraction = createNormalDuraction(song.Duraction);
                 mediaPlayer.Play();
@@ -135,7 +137,7 @@ namespace Music.view
         }
         private bool isExistInFolder(string name)
         {
-            return File.Exists(LISTEN_PATH + name + CONTENT_TYPE);
+            return File.Exists(ExtraField.LISTEN_PATH + name + ExtraField.CONTENT_TYPE);
         }
 
         private string createNormalDuraction(int duraction)

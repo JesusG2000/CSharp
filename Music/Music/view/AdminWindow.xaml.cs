@@ -17,6 +17,7 @@ using Music.util;
 using System.Windows.Threading;
 using System.Globalization;
 using System.IO;
+using Music.db;
 
 namespace Music.view
 {
@@ -25,15 +26,15 @@ namespace Music.view
     /// </summary>
     public partial class AdminWindow : Window
     {
-        private User user;
+        private DUser user;
         private Controller controller;
         private MediaPlayer mediaPlayer;
-        private static readonly string LISTEN_PATH = @"D:\music_from_cursach\";
-        private static readonly string CONTENT_TYPE = ".mp3";
+       
         private string songDuraction;
+       
 
 
-        public AdminWindow(User user)
+        public AdminWindow(DUser user)
         {
             this.user = user;
             controller = new Controller();
@@ -60,7 +61,7 @@ namespace Music.view
 
         private void loadInUserGrid(object sender, RoutedEventArgs e)
         {
-            userGrid.ItemsSource = (List<User>)controller.complete(TextCommand.GET_ALL_REGISTERED_USERS, "");
+            userGrid.ItemsSource = (List<DUser>)controller.complete(TextCommand.GET_ALL_REGISTERED_USERS, "");
 
         }
         private void songSound(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -69,7 +70,7 @@ namespace Music.view
         }
         private void deleteSelectedFromUserGrid(object sender, RoutedEventArgs e)
         {
-            User user = (User)userGrid.SelectedItem;
+            DUser user = (DUser)userGrid.SelectedItem;
 
             if (user != null)
             {
@@ -110,6 +111,7 @@ namespace Music.view
                 controller.complete(TextCommand.DELETE_SONG, song);
                 loadInSongGrid(sender, e);
                 mediaPlayer.Stop();
+                mediaPlayer.Close();
             }
         }
 
@@ -134,12 +136,22 @@ namespace Music.view
             Song song = (Song)SongDrid.SelectedItem;
             if (song != null)
             {
-                if (!isExistInFolder(song.Name))
-                {
-                    controller.complete(TextCommand.READ_GOOGLE_SONG_BY_ID, song.Id);
-                }
 
-                mediaPlayer.Open(new Uri(LISTEN_PATH + song.Name + CONTENT_TYPE));
+                mediaPlayer.Stop();
+                mediaPlayer.Close();
+                //if (!isExistInFolder(song.Name))
+                //{
+                //    controller.complete(TextCommand.READ_GOOGLE_SONG_BY_ID, song.Id);
+                //}
+                string fileName = String.Format("{0}\\{1}", ExtraField.LISTEN_PATH, song.Name + ExtraField.CONTENT_TYPE.ToString());
+
+                File.WriteAllBytes(fileName, song.MultimediaData);
+
+               
+
+                mediaPlayer.Open(new Uri(ExtraField.LISTEN_PATH + song.Name + ExtraField.CONTENT_TYPE));
+
+                // MessageBox.Show(LISTEN_PATH + song.Name + CONTENT_TYPE);
 
                 songDuraction = createNormalDuraction(song.Duraction);
                 mediaPlayer.Play();
@@ -154,7 +166,7 @@ namespace Music.view
 
         private bool isExistInFolder(string name)
         {
-            return File.Exists(LISTEN_PATH + name + CONTENT_TYPE);
+            return File.Exists(ExtraField.LISTEN_PATH + name + ExtraField.CONTENT_TYPE);
         }
 
         private string createNormalDuraction(int duraction)
@@ -224,6 +236,16 @@ namespace Music.view
             {
                 MessageBox.Show(song.Description);
             }
+        }
+
+        private void deleteAllUsers(object sender, RoutedEventArgs e)
+        {
+            List<DUser> regUsers = (List<DUser>)controller.complete(TextCommand.GET_ALL_REGISTERED_USERS, "");
+            foreach(DUser u in regUsers)
+            {
+                controller.complete(TextCommand.DELETE_USER, u);
+            }
+            loadInUserGrid(sender, e);
         }
     }
 }

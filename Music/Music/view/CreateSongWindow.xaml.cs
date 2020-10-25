@@ -1,8 +1,11 @@
 ﻿using Microsoft.Win32;
 using Music.controller;
+using Music.db;
 using Music.util;
+using NAudio.Wave;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -23,14 +26,14 @@ namespace Music.view
     /// </summary>
     public partial class CreateSongWindow : Window
     {
-        private User user;
+        private DUser user;
         private Song song;
         private SongValidation validation;
         private MediaPlayer mediaPlayer;
         private Controller controller;
         private string FilePath { get; set; }
 
-        public CreateSongWindow(User user)
+        public CreateSongWindow(DUser user)
         {
             InitializeComponent();
             ResizeMode = ResizeMode.NoResize;
@@ -45,17 +48,16 @@ namespace Music.view
             {
                 if (openFileDialog.ShowDialog() == true && !openFileDialog.FileName.Trim().Equals(""))
                 {
+                    string fullPath = openFileDialog.FileName;
 
-                    mediaPlayer.Open(new Uri(openFileDialog.FileName));
+                   // mediaPlayer.Open(new Uri(fullPath));
 
-
-                    FilePath = openFileDialog.FileName;
-                    Thread.Sleep(2500);
-                    song.Name = parseName(openFileDialog.FileName);
-
-                    song.Duraction = parseDuraction(mediaPlayer.NaturalDuration.TimeSpan.ToString(@"mm\:ss"));
-                    song.NumberOfPlays = 0;
-                    mediaPlayer.Close();
+                   // Thread.Sleep(2500);
+                    song.Name = parseName(fullPath);
+                    song.MultimediaData = File.ReadAllBytes(fullPath);
+                    song.Duraction = parseDuraction(new AudioFileReader(fullPath).TotalTime.ToString(@"mm\:ss"));
+                   
+                   // mediaPlayer.Close();
                 }
                 else
                 {
@@ -70,7 +72,7 @@ namespace Music.view
 
             UpdateButton.IsEnabled = false;
         }
-        public CreateSongWindow(User user, Song song)
+        public CreateSongWindow(DUser user, Song song)
         {
             this.user = user;
             this.song = song;
@@ -140,7 +142,7 @@ namespace Music.view
 
             if (validation.isAllFieldValidate())
             {
-                controller.complete(TextCommand.CREATE_GOOGLE_SONG, new object[] { FilePath, song });
+                controller.complete(TextCommand.CREATE_SONG, song);
                 controller.complete(TextCommand.SEND_NOTIFICATION_FOR_USERS, new object[] { user.Id, song });
                 new AdminWindow(user).Show();
                 Close();

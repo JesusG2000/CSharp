@@ -241,3 +241,5 @@ D:\notImportant\курсач\c#\Music\Music\obj\Debug\Music.csproj.CoreCompileIn
 D:\notImportant\курсач\c#\Music\Music\obj\Debug\Music.csproj.CopyComplete
 D:\notImportant\курсач\c#\Music\Music\obj\Debug\Music.exe
 D:\notImportant\курсач\c#\Music\Music\obj\Debug\Music.pdb
+D:\notImportant\курсач\c#\Music\Music\bin\Debug\NAudio.dll
+D:\notImportant\курсач\c#\Music\Music\bin\Debug\NAudio.xml

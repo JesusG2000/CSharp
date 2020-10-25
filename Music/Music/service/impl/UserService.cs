@@ -7,6 +7,7 @@ using Music.dto;
 using Music.dao;
 using System.Security.Cryptography;
 using System.IO;
+using Music.db;
 
 namespace Music.service.impl
 {
@@ -18,7 +19,7 @@ namespace Music.service.impl
         private const int bytePermutation2 = 0x59;
         private const int bytePermutation3 = 0x17;
         private const int bytePermutation4 = 0x41;
-        public void create(User t)
+        public void create(DUser t)
         {
 
             t.Password = Encrypt(t.Password);
@@ -27,48 +28,48 @@ namespace Music.service.impl
 
 
 
-        public void delete(User t)
+        public void delete(DUser t)
         {
             userDao.delete(t);
         }
 
 
 
-        public List<User> getAllUser()
+        public List<DUser> getAllUser()
         {
             throw new NotImplementedException();
         }
 
-        public bool isExist(User user)
+        public bool isExist(DUser user)
         {
             user.Password = Encrypt(user.Password);
             return userDao.isExist(user);
         }
 
-        public bool isRegistered(User user)
+        public bool isRegistered(DUser user)
         {
 
             return userDao.isRegistered(user);
         }
 
-        public User readById(int id)
+        public DUser readById(int id)
         {
             return userDao.readById(id);
         }
 
-        public User update(int id, User t)
+        public DUser update(int id, DUser t)
         {
             return userDao.update(id, t);
         }
 
 
 
-        public User readByName(string name)
+        public DUser readByName(string name)
         {
-            return userDao.readByName(name);
+            return userDao.readByLogin(name);
         }
 
-        public List<User> getAllRegisterUser()
+        public List<DUser> getAllRegisterUser()
         {
             return userDao.getAllRegisterUser();
         }

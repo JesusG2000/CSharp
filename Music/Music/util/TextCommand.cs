@@ -9,7 +9,7 @@ namespace Music.util
     class TextCommand
     {
         public static string CREATE_COMMENT = "create_comment";
-        public static string CREATE_GOOGLE_SONG = "create_google_song";
+      //  public static string CREATE_GOOGLE_SONG = "create_google_song";
         public static string CREATE_MESSAGE = "create_message";
         public static string CREATE_MESSAGE_CONCLUSION_TIME = "create_message_conclusion_time";
         public static string CREATE_PLAY_LIST = "create_play_list";
@@ -21,7 +21,7 @@ namespace Music.util
         public static string CREATE_USER_MESSAGE = "create_user_message";
 
 
-        public static string READ_GOOGLE_SONG_BY_ID = "read_google_song_by_id";
+      //  public static string READ_GOOGLE_SONG_BY_ID = "read_google_song_by_id";
         public static string READ_MESSAGE_BY_ID = "read_message_by_id";
         public static string READ_PLAY_LIST_BY_NAME = "read_play_list_by_name";
         public static string READ_PLAY_LIST_SONG_BY_SONG_AND_PLAY_LIST_IDS = "read_play_list_song_by_song_and_play_list_ids";

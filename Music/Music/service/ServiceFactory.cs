@@ -17,7 +17,7 @@ namespace Music.service
         private IPlayListService playListService = new PlayListService();
         private IPlayListSongService playListSongService = new PlayListSongService();
         private ISongService songService = new SongService();
-        private IGoogleSongService googleSongService = new GoogleSongService();
+     
         private IUserMessageService userMessageService = new UserMessageService();
         private IDialogService dialogService = new DialogService();
         private ServiceFactory() { }
@@ -53,10 +53,7 @@ namespace Music.service
         {
             return songService;
         }
-        public IGoogleSongService GetGoogleSongService()
-        {
-            return googleSongService;
-        }
+      
         public IUserMessageService GetUserMessageService()
         {
             return userMessageService;

@@ -35,6 +35,7 @@
         <Slider Name="SongSlider" HorizontalAlignment="Left" Margin="398,10,0,0" VerticalAlignment="Top" Width="69" Value="1" ValueChanged="songSound"/>
         <Menu DockPanel.Dock="Top" Background="{x:Null}">
             <MenuItem x:Name="menuLanguage" Header="{DynamicResource lang}" />
+
         </Menu>
         <StackPanel Margin="189,-2,432.6,347">
             <Label x:Name="lblStatus" Content="Not playing..." HorizontalContentAlignment="Center" Margin="5,5,4.8,5" />
@@ -75,6 +76,7 @@
         <Button Content="{DynamicResource admin_window_update_selected_song}" HorizontalAlignment="Left" Margin="640,79,0,0" VerticalAlignment="Top" Width="200" Click="updateSong"/>
         <Button Content="{DynamicResource admin_window_play_selected_song}" HorizontalAlignment="Left" Margin="640,103,0,0" VerticalAlignment="Top" Width="200" Click="playSelectedSong"/>
         <Button Content="{DynamicResource admin_window_see_description}" HorizontalAlignment="Left" Margin="640,127,0,0" VerticalAlignment="Top" Width="200" Click="seeDescription"/>
+        <Button Content="{DynamicResource admin_window_delete_all_users}" HorizontalAlignment="Left" Margin="640,150,0,0" VerticalAlignment="Top" Width="200" Click="deleteAllUsers" />
 
     </Grid>
 </Window>

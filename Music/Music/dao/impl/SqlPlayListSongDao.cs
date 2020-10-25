@@ -5,16 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Music.dto;
-
+using Music.db;
 namespace Music.dao.impl
 {
     class SqlPlayListSongDao : IPlayListSongDao
     {
+        private static int NOT_PARAM = -1;
         public void create(PlayListSong t)
         {
             using (TestDbContext context = new TestDbContext())
             {
-                context.PlayListSongs.Add(t);
+                context.PlayListSongOperation((int)PlayListSongOperation.CREATE, NOT_PARAM, t.SongId, t.PlayListId);
                 context.SaveChanges();
             }
         }
@@ -23,57 +24,34 @@ namespace Music.dao.impl
         {
             using (TestDbContext context = new TestDbContext())
             {
-                context.PlayListSongs.Attach(t);
-                context.Entry(t).State = EntityState.Deleted;
+                context.PlayListSongOperation((int)PlayListSongOperation.DELETE, t.Id);
                 context.SaveChanges();
             }
         }
 
-        public List<Song> getAllSongsByPlayListId(int id)
-        {
-            ISongDao songDao = new SqlSongDao();
-            List<Song> songs = new List<Song>();
-            using (TestDbContext context = new TestDbContext())
-            {
-                foreach(PlayListSong p in context.PlayListSongs)
-                {
-                    if (p.PlayListId == id)
-                    {
-                        songs.Add(songDao.readById(p.SongId));
-                    }
-                }
-            }
-            return songs;
-        }
+       
 
         public PlayListSong readById(int id)
         {
             using (TestDbContext context = new TestDbContext())
             {
-                foreach (PlayListSong p in context.PlayListSongs)
-                {
-                    if (p.Id == id)
-                    {
-                        return p;
-                    }
-                }
+                var fromDb = context.PlayListSongOperation((int)PlayListSongOperation.READ, id).GetEnumerator();
+                fromDb.MoveNext();
+                return fromDb.Current;
+
             }
-            return null;
+           
         }
 
         public PlayListSong readBySongAndPlayListIds(int songId, int playListId)
         {
             using (TestDbContext context = new TestDbContext())
             {
-                foreach (PlayListSong p in context.PlayListSongs)
-                {
-                    if (p.SongId == songId && p.PlayListId==playListId)
-                    {
-                        return p;
-                    }
-                }
+                var fromDb = context.PlayListSongOperation((int)PlayListSongOperation.READ_BY_SONG_AND_PLAYLIST_ID, NOT_PARAM , songId,playListId).GetEnumerator();
+                fromDb.MoveNext();
+                return fromDb.Current;
             }
-            return null;
+           
         }
 
         public PlayListSong update(int id, PlayListSong t)

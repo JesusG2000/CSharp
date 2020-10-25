@@ -5,16 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Music.dto;
-
+using Music.db;
 namespace Music.dao.impl
 {
     class SqlCommentDao : ICommentDao
     {
+        private static int NOT_PARAM = -1;
         public void create(Comment t)
         {
-            using (TestDbContext context =new TestDbContext())
+            using (TestDbContext context = new TestDbContext())
             {
-                context.Comments.Add(t);
+                context.CommentOperation((int)CommentOperation.CREATE, NOT_PARAM, t.Text, t.Date, t.UserId, t.SongId);
                 context.SaveChanges();
             }
         }
@@ -23,8 +24,7 @@ namespace Music.dao.impl
         {
             using (TestDbContext context = new TestDbContext())
             {
-                context.Comments.Attach(t);
-                context.Entry(t).State = EntityState.Deleted;
+                context.CommentOperation((int)CommentOperation.DELETE, t.Id);
                 context.SaveChanges();
             }
         }
@@ -34,46 +34,50 @@ namespace Music.dao.impl
             List<Comment> comments = new List<Comment>();
             using (TestDbContext context = new TestDbContext())
             {
-                foreach (Comment c in context.Comments)
+                var commentsFromDb = context.CommentOperation((int)CommentOperation.GET_ALL_BY_SONG_ID, songId);
+                return commentsFromDb.Select(x => new Comment
                 {
-                    if (c.SongId == songId)
-                    {
-                        comments.Add(c);
-                    }
-                }
+                    Id = x.Id,
+                    Text = x.Text,
+                    Date = x.Date,
+                    UserId = x.UserId,
+                    SongId = x.SongId,
+
+                }).ToList();
+               
+
             }
-            return comments;
+           
         }
 
-            public List<Comment> getAllByUserId(int userId)
+        public List<Comment> getAllByUserId(int userId)
         {
-            List<Comment> comments = new List<Comment>();
+           
             using (TestDbContext context = new TestDbContext())
             {
-                foreach (Comment c in context.Comments)
+                var commentsFromDb = context.CommentOperation((int)CommentOperation.GET_ALL_BY_USER_ID, userId);
+                return commentsFromDb.Select(x => new Comment
                 {
-                    if (c.UserId == userId)
-                    {
-                        comments.Add(c);
-                    }
-                }
+                    Id = x.Id,
+                    Text = x.Text,
+                    Date = x.Date,
+                    UserId = x.UserId,
+                    SongId = x.SongId,
+
+                }).ToList();
+               
             }
-            return comments;
         }
 
         public Comment readById(int id)
         {
             using (TestDbContext context = new TestDbContext())
             {
-                foreach (Comment c in context.Comments)
-                {
-                    if (c.Id == id)
-                    {
-                        return c;
-                    }
-                }
+                var comment = context.CommentOperation((int)CommentOperation.READ, id).GetEnumerator();
+                comment.MoveNext();
+                return comment.Current;
             }
-            return null;
+            
         }
 
         public Comment update(int id, Comment t)

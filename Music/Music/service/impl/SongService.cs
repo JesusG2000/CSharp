@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Music.dto;
 using Music.dao;
+using Music.db;
 
 namespace Music.service.impl
 {
@@ -31,7 +32,10 @@ namespace Music.service.impl
             return songDao.readById(id);
         }
 
-     
+        public List<Song> getAllSongsByPlayListId(int id)
+        {
+            return songDao.getAllSongsByPlayListId(id);
+        }
 
         public Song update(int id, Song t)
         {

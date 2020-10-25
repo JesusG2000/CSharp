@@ -5,8 +5,8 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Text" Type="nvarchar" MaxLength="200" Nullable="false" />
-    <Property Name="Date" Type="date" Nullable="false" />
+    <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
     <Property Name="UserId" Type="int" Nullable="false" />
     <Property Name="SongId" Type="int" Nullable="false" />
   </EntityType>
@@ -15,9 +15,9 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Text" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
     <Property Name="UserSenderId" Type="int" Nullable="false" />
-    <Property Name="Date" Type="date" Nullable="false" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="MessageConclusionTime">
     <Key>
@@ -26,16 +26,16 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="FirstUserId" Type="int" Nullable="false" />
     <Property Name="SecondUserId" Type="int" Nullable="false" />
-    <Property Name="FirstUserDate" Type="date" Nullable="false" />
-    <Property Name="SecondUserDate" Type="date" Nullable="false" />
+    <Property Name="FirstUserDate" Type="datetime" Nullable="false" />
+    <Property Name="SecondUserDate" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="PlayList">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
-    <Property Name="Description" Type="nvarchar" MaxLength="1000" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
     <Property Name="UserId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="PlayListSong">
@@ -51,15 +51,14 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="LocalUrl" Type="nvarchar" MaxLength="200" Nullable="false" />
-    <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
-    <Property Name="Description" Type="nvarchar" MaxLength="1000" Nullable="false" />
-    <Property Name="Type" Type="nvarchar" MaxLength="50" Nullable="false" />
-    <Property Name="AuthorName" Type="nvarchar" MaxLength="200" Nullable="false" />
-    <Property Name="ReleaseDate" Type="date" Nullable="false" />
-    <Property Name="Album" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="MultimediaData" Type="varbinary(max)" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="AuthorName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ReleaseDate" Type="datetime" Nullable="false" />
+    <Property Name="Album" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Duraction" Type="int" Nullable="false" />
-    <Property Name="NumberOfPlays" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="User">
     <Key>

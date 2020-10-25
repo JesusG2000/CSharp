@@ -5,22 +5,22 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Text" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="UserId" Type="Int32" Nullable="false" />
     <Property Name="SongId" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="Songs" Relationship="Self.FK_Comment_Song" FromRole="Comment" ToRole="Song" />
-    <NavigationProperty Name="Users" Relationship="Self.FK_Comment_User" FromRole="Comment" ToRole="User" />
+    <NavigationProperty Name="Song" Relationship="Self.FK_Comment_Song" FromRole="Comment" ToRole="Song" />
+    <NavigationProperty Name="User" Relationship="Self.FK_Comment_User" FromRole="Comment" ToRole="User" />
   </EntityType>
   <EntityType Name="Message">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Text" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="UserSenderId" Type="Int32" Nullable="false" />
-    <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
-    <NavigationProperty Name="UserMessages" Relationship="Self.FK_UserMessage_Message" FromRole="Message" ToRole="UserMessage" />
+    <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="UserMessage" Relationship="Self.FK_UserMessage_Message" FromRole="Message" ToRole="UserMessage" />
   </EntityType>
   <EntityType Name="MessageConclusionTime">
     <Key>
@@ -29,19 +29,19 @@
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="FirstUserId" Type="Int32" Nullable="false" />
     <Property Name="SecondUserId" Type="Int32" Nullable="false" />
-    <Property Name="FirstUserDate" Type="DateTime" Nullable="false" Precision="0" />
-    <Property Name="SecondUserDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="FirstUserDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="SecondUserDate" Type="DateTime" Nullable="false" Precision="3" />
   </EntityType>
   <EntityType Name="PlayList">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="UserId" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="Users" Relationship="Self.FK_PlayList_User" FromRole="PlayList" ToRole="User" />
-    <NavigationProperty Name="PlayListSongs" Relationship="Self.FK_PlayListSong_PlayList" FromRole="PlayList" ToRole="PlayListSong" />
+    <NavigationProperty Name="User" Relationship="Self.FK_PlayList_User" FromRole="PlayList" ToRole="User" />
+    <NavigationProperty Name="PlayListSong" Relationship="Self.FK_PlayListSong_PlayList" FromRole="PlayList" ToRole="PlayListSong" />
   </EntityType>
   <EntityType Name="PlayListSong">
     <Key>
@@ -50,25 +50,24 @@
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="SongId" Type="Int32" Nullable="false" />
     <Property Name="PlayListId" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="PlayLists" Relationship="Self.FK_PlayListSong_PlayList" FromRole="PlayListSong" ToRole="PlayList" />
-    <NavigationProperty Name="Songs" Relationship="Self.FK_PlayListSong_Song" FromRole="PlayListSong" ToRole="Song" />
+    <NavigationProperty Name="PlayList" Relationship="Self.FK_PlayListSong_PlayList" FromRole="PlayListSong" ToRole="PlayList" />
+    <NavigationProperty Name="Song" Relationship="Self.FK_PlayListSong_Song" FromRole="PlayListSong" ToRole="Song" />
   </EntityType>
   <EntityType Name="Song">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="LocalUrl" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="AuthorName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="ReleaseDate" Type="DateTime" Nullable="false" Precision="0" />
-    <Property Name="Album" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="MultimediaData" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Type" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="AuthorName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ReleaseDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Album" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="Duraction" Type="Int32" Nullable="false" />
-    <Property Name="NumberOfPlays" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="Comments" Relationship="Self.FK_Comment_Song" FromRole="Song" ToRole="Comment" />
-    <NavigationProperty Name="PlayListSongs" Relationship="Self.FK_PlayListSong_Song" FromRole="Song" ToRole="PlayListSong" />
+    <NavigationProperty Name="Comment" Relationship="Self.FK_Comment_Song" FromRole="Song" ToRole="Comment" />
+    <NavigationProperty Name="PlayListSong" Relationship="Self.FK_PlayListSong_Song" FromRole="Song" ToRole="PlayListSong" />
   </EntityType>
   <EntityType Name="User">
     <Key>
@@ -78,9 +77,9 @@
     <Property Name="Login" Type="String" MaxLength="16" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="Password" Type="String" MaxLength="40" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="Role" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="Comments" Relationship="Self.FK_Comment_User" FromRole="User" ToRole="Comment" />
-    <NavigationProperty Name="PlayLists" Relationship="Self.FK_PlayList_User" FromRole="User" ToRole="PlayList" />
-    <NavigationProperty Name="UserMessages" Relationship="Self.FK_UserMessage_User" FromRole="User" ToRole="UserMessage" />
+    <NavigationProperty Name="Comment" Relationship="Self.FK_Comment_User" FromRole="User" ToRole="Comment" />
+    <NavigationProperty Name="PlayList" Relationship="Self.FK_PlayList_User" FromRole="User" ToRole="PlayList" />
+    <NavigationProperty Name="UserMessage" Relationship="Self.FK_UserMessage_User" FromRole="User" ToRole="UserMessage" />
   </EntityType>
   <EntityType Name="UserMessage">
     <Key>
@@ -89,8 +88,8 @@
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="MessageId" Type="Int32" Nullable="false" />
     <Property Name="UserGetterId" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="Messages" Relationship="Self.FK_UserMessage_Message" FromRole="UserMessage" ToRole="Message" />
-    <NavigationProperty Name="Users" Relationship="Self.FK_UserMessage_User" FromRole="UserMessage" ToRole="User" />
+    <NavigationProperty Name="Message" Relationship="Self.FK_UserMessage_Message" FromRole="UserMessage" ToRole="Message" />
+    <NavigationProperty Name="User" Relationship="Self.FK_UserMessage_User" FromRole="UserMessage" ToRole="User" />
   </EntityType>
   <Association Name="FK_Comment_Song">
     <End Role="Song" Type="Self.Song" Multiplicity="1">

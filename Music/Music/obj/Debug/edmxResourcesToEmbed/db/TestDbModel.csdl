@@ -1,0 +1,344 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CSharpMVCProjectModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Comment">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <Property Name="SongId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Song" Relationship="Self.FK_Comment_Song" FromRole="Comment" ToRole="Song" />
+    <NavigationProperty Name="DUser" Relationship="Self.FK_Comment_User" FromRole="Comment" ToRole="DUser" />
+  </EntityType>
+  <EntityType Name="DUser">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Login" Type="String" MaxLength="16" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="40" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Role" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Comment" Relationship="Self.FK_Comment_User" FromRole="DUser" ToRole="Comment" />
+    <NavigationProperty Name="PlayList" Relationship="Self.FK_PlayList_User" FromRole="DUser" ToRole="PlayList" />
+    <NavigationProperty Name="UserMessage" Relationship="Self.FK_UserMessage_User" FromRole="DUser" ToRole="UserMessage" />
+  </EntityType>
+  <EntityType Name="Message">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="UserSenderId" Type="Int32" Nullable="false" />
+    <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="UserMessage" Relationship="Self.FK_UserMessage_Message" FromRole="Message" ToRole="UserMessage" />
+  </EntityType>
+  <EntityType Name="MessageConclusionTime">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstUserId" Type="Int32" Nullable="false" />
+    <Property Name="SecondUserId" Type="Int32" Nullable="false" />
+    <Property Name="FirstUserDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="SecondUserDate" Type="DateTime" Nullable="false" Precision="3" />
+  </EntityType>
+  <EntityType Name="PlayList">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="DUser" Relationship="Self.FK_PlayList_User" FromRole="PlayList" ToRole="DUser" />
+    <NavigationProperty Name="PlayListSong" Relationship="Self.FK_PlayListSong_PlayList" FromRole="PlayList" ToRole="PlayListSong" />
+  </EntityType>
+  <EntityType Name="PlayListSong">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SongId" Type="Int32" Nullable="false" />
+    <Property Name="PlayListId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="PlayList" Relationship="Self.FK_PlayListSong_PlayList" FromRole="PlayListSong" ToRole="PlayList" />
+    <NavigationProperty Name="Song" Relationship="Self.FK_PlayListSong_Song" FromRole="PlayListSong" ToRole="Song" />
+  </EntityType>
+  <EntityType Name="Song">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MultimediaData" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Type" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="AuthorName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ReleaseDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Album" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Duraction" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Comment" Relationship="Self.FK_Comment_Song" FromRole="Song" ToRole="Comment" />
+    <NavigationProperty Name="PlayListSong" Relationship="Self.FK_PlayListSong_Song" FromRole="Song" ToRole="PlayListSong" />
+  </EntityType>
+  <EntityType Name="UserMessage">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MessageId" Type="Int32" Nullable="false" />
+    <Property Name="UserGetterId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="DUser" Relationship="Self.FK_UserMessage_User" FromRole="UserMessage" ToRole="DUser" />
+    <NavigationProperty Name="Message" Relationship="Self.FK_UserMessage_Message" FromRole="UserMessage" ToRole="Message" />
+  </EntityType>
+  <Association Name="FK_Comment_Song">
+    <End Role="Song" Type="Self.Song" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Song">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Comment">
+        <PropertyRef Name="SongId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Comment_User">
+    <End Role="DUser" Type="Self.DUser" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Comment">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PlayList_User">
+    <End Role="DUser" Type="Self.DUser" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="PlayList" Type="Self.PlayList" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PlayList">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserMessage_User">
+    <End Role="DUser" Type="Self.DUser" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="UserMessage" Type="Self.UserMessage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserMessage">
+        <PropertyRef Name="UserGetterId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserMessage_Message">
+    <End Role="Message" Type="Self.Message" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="UserMessage" Type="Self.UserMessage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Message">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserMessage">
+        <PropertyRef Name="MessageId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PlayListSong_PlayList">
+    <End Role="PlayList" Type="Self.PlayList" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="PlayListSong" Type="Self.PlayListSong" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PlayList">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PlayListSong">
+        <PropertyRef Name="PlayListId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PlayListSong_Song">
+    <End Role="Song" Type="Self.Song" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="PlayListSong" Type="Self.PlayListSong" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Song">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PlayListSong">
+        <PropertyRef Name="SongId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="TestDbContext" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Comment" EntityType="Self.Comment" />
+    <EntitySet Name="DUser" EntityType="Self.DUser" />
+    <EntitySet Name="Message" EntityType="Self.Message" />
+    <EntitySet Name="MessageConclusionTime" EntityType="Self.MessageConclusionTime" />
+    <EntitySet Name="PlayList" EntityType="Self.PlayList" />
+    <EntitySet Name="PlayListSong" EntityType="Self.PlayListSong" />
+    <EntitySet Name="Song" EntityType="Self.Song" />
+    <EntitySet Name="UserMessage" EntityType="Self.UserMessage" />
+    <AssociationSet Name="FK_Comment_Song" Association="Self.FK_Comment_Song">
+      <End Role="Song" EntitySet="Song" />
+      <End Role="Comment" EntitySet="Comment" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Comment_User" Association="Self.FK_Comment_User">
+      <End Role="DUser" EntitySet="DUser" />
+      <End Role="Comment" EntitySet="Comment" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PlayList_User" Association="Self.FK_PlayList_User">
+      <End Role="DUser" EntitySet="DUser" />
+      <End Role="PlayList" EntitySet="PlayList" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserMessage_User" Association="Self.FK_UserMessage_User">
+      <End Role="DUser" EntitySet="DUser" />
+      <End Role="UserMessage" EntitySet="UserMessage" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserMessage_Message" Association="Self.FK_UserMessage_Message">
+      <End Role="Message" EntitySet="Message" />
+      <End Role="UserMessage" EntitySet="UserMessage" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PlayListSong_PlayList" Association="Self.FK_PlayListSong_PlayList">
+      <End Role="PlayList" EntitySet="PlayList" />
+      <End Role="PlayListSong" EntitySet="PlayListSong" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PlayListSong_Song" Association="Self.FK_PlayListSong_Song">
+      <End Role="Song" EntitySet="Song" />
+      <End Role="PlayListSong" EntitySet="PlayListSong" />
+    </AssociationSet>
+    <FunctionImport Name="CommentOperation" EntitySet="Comment" ReturnType="Collection(CSharpMVCProjectModel.Comment)">
+      <Parameter Name="Command" Mode="In" Type="Int32" />
+      <Parameter Name="Id" Mode="In" Type="Int32" />
+      <Parameter Name="Text" Mode="In" Type="String" />
+      <Parameter Name="Date" Mode="In" Type="DateTime" />
+      <Parameter Name="UserId" Mode="In" Type="Int32" />
+      <Parameter Name="SongId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="MessageConclusionTimeOperation" EntitySet="MessageConclusionTime" ReturnType="Collection(CSharpMVCProjectModel.MessageConclusionTime)">
+      <Parameter Name="Command" Mode="In" Type="Int32" />
+      <Parameter Name="Id" Mode="In" Type="Int32" />
+      <Parameter Name="FirstUserId" Mode="In" Type="Int32" />
+      <Parameter Name="SecondUserId" Mode="In" Type="Int32" />
+      <Parameter Name="FirstUserDate" Mode="In" Type="DateTime" />
+      <Parameter Name="SecondUserDate" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="MessageOperation" EntitySet="Message" ReturnType="Collection(CSharpMVCProjectModel.Message)">
+      <Parameter Name="Command" Mode="In" Type="Int32" />
+      <Parameter Name="Id" Mode="In" Type="Int32" />
+      <Parameter Name="Text" Mode="In" Type="String" />
+      <Parameter Name="UserSenderId" Mode="In" Type="Int32" />
+      <Parameter Name="Date" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="PlayListOperation" EntitySet="PlayList" ReturnType="Collection(CSharpMVCProjectModel.PlayList)">
+      <Parameter Name="Command" Mode="In" Type="Int32" />
+      <Parameter Name="Id" Mode="In" Type="Int32" />
+      <Parameter Name="Name" Mode="In" Type="String" />
+      <Parameter Name="Description" Mode="In" Type="String" />
+      <Parameter Name="UserId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="PlayListSongOperation" EntitySet="PlayListSong" ReturnType="Collection(CSharpMVCProjectModel.PlayListSong)">
+      <Parameter Name="Command" Mode="In" Type="Int32" />
+      <Parameter Name="Id" Mode="In" Type="Int32" />
+      <Parameter Name="SongId" Mode="In" Type="Int32" />
+      <Parameter Name="PlayListId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SongOperation" EntitySet="Song" ReturnType="Collection(CSharpMVCProjectModel.Song)">
+      <Parameter Name="Command" Mode="In" Type="Int32" />
+      <Parameter Name="Id" Mode="In" Type="Int32" />
+      <Parameter Name="MultimediaData" Mode="In" Type="Binary" />
+      <Parameter Name="Name" Mode="In" Type="String" />
+      <Parameter Name="Description" Mode="In" Type="String" />
+      <Parameter Name="Type" Mode="In" Type="String" />
+      <Parameter Name="AuthorName" Mode="In" Type="String" />
+      <Parameter Name="ReleaseDate" Mode="In" Type="DateTime" />
+      <Parameter Name="Album" Mode="In" Type="String" />
+      <Parameter Name="Duraction" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="UserMessageOperation" EntitySet="UserMessage" ReturnType="Collection(CSharpMVCProjectModel.UserMessage)">
+      <Parameter Name="Command" Mode="In" Type="Int32" />
+      <Parameter Name="Id" Mode="In" Type="Int32" />
+      <Parameter Name="MessageId" Mode="In" Type="Int32" />
+      <Parameter Name="UsergetterId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="UserOperation" EntitySet="DUser" ReturnType="Collection(CSharpMVCProjectModel.DUser)">
+      <Parameter Name="Command" Mode="In" Type="Int32" />
+      <Parameter Name="Id" Mode="In" Type="Int32" />
+      <Parameter Name="Login" Mode="In" Type="String" />
+      <Parameter Name="Password" Mode="In" Type="String" />
+      <Parameter Name="Role" Mode="In" Type="Int32" />
+    </FunctionImport>
+  </EntityContainer>
+  <ComplexType Name="CommentOperation_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="String" Name="Text" Nullable="false" />
+    <Property Type="DateTime" Name="Date" Nullable="false" Precision="23" />
+    <Property Type="Int32" Name="UserId" Nullable="false" />
+    <Property Type="Int32" Name="SongId" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="MessageConclusionTimeOperation_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="Int32" Name="FirstUserId" Nullable="false" />
+    <Property Type="Int32" Name="SecondUserId" Nullable="false" />
+    <Property Type="DateTime" Name="FirstUserDate" Nullable="false" Precision="23" />
+    <Property Type="DateTime" Name="SecondUserDate" Nullable="false" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="MessageOperation_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="String" Name="Text" Nullable="false" />
+    <Property Type="Int32" Name="UserSenderId" Nullable="false" />
+    <Property Type="DateTime" Name="Date" Nullable="false" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="PlayListOperation_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="String" Name="Name" Nullable="false" />
+    <Property Type="String" Name="Description" Nullable="false" />
+    <Property Type="Int32" Name="UserId" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="PlayListSongOperation_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="Int32" Name="SongId" Nullable="false" />
+    <Property Type="Int32" Name="PlayListId" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="SongOperation_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="Binary" Name="MultimediaData" Nullable="false" />
+    <Property Type="String" Name="Name" Nullable="false" />
+    <Property Type="String" Name="Description" Nullable="false" />
+    <Property Type="String" Name="Type" Nullable="false" />
+    <Property Type="String" Name="AuthorName" Nullable="false" />
+    <Property Type="DateTime" Name="ReleaseDate" Nullable="false" Precision="23" />
+    <Property Type="String" Name="Album" Nullable="false" />
+    <Property Type="Int32" Name="Duraction" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="UserMessageOperation_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="Int32" Name="MessageId" Nullable="false" />
+    <Property Type="Int32" Name="UserGetterId" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="UserOperation_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="String" Name="Login" Nullable="false" MaxLength="16" />
+    <Property Type="String" Name="Password" Nullable="false" MaxLength="40" />
+    <Property Type="Int32" Name="Role" Nullable="false" />
+  </ComplexType>
+</Schema>

@@ -16,9 +16,9 @@ namespace Music.command.create
 
         public object Execute(object request)
         {
-            User[] arrData = (User[])request;
-            User user = arrData[0];
-            User otherUser = arrData[1];
+            DUser[] arrData = (DUser[])request;
+            DUser user = arrData[0];
+            DUser otherUser = arrData[1];
             List<UserMessage> userMessages = userMessageService.getAllMessageByUserId(user.Id);
             List<Dialog> dialogs= dialogService.createDialogs(userMessages, user.Id);
             return dialogService.getDialogByUsers(dialogs,user,otherUser);

@@ -5,16 +5,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Music.dto;
+using Music.db;
 
 namespace Music.dao.impl
 {
     class SqlUserMessageDao : IUserMessageDao
     {
+        private static int NOT_PARAM = -1;
         public void create(UserMessage t)
         {
             using (TestDbContext context = new TestDbContext())
             {
-                context.UserMessages.Add(t);
+                context.UserMessageOperation((int)UserMessageOperation.CREATE, NOT_PARAM, t.MessageId, t.UserGetterId);
                 context.SaveChanges();
             }
         }
@@ -23,43 +25,35 @@ namespace Music.dao.impl
         {
             using (TestDbContext context = new TestDbContext())
             {
-                context.UserMessages.Attach(t);
-                context.Entry(t).State = EntityState.Deleted;
+                context.UserMessageOperation((int)UserMessageOperation.DELETE,t.Id);
                 context.SaveChanges();
             }
         }
 
         public List<UserMessage> getAllMessageByUserId(int id)
         {
-            List<UserMessage> userMessages = new List<UserMessage>();
-            IMessageDao messageDao = new SqlMessageDao();
             using (TestDbContext context = new TestDbContext())
             {
-               
-                foreach(UserMessage um in context.UserMessages)
+                var fromDb = context.UserMessageOperation((int)UserMessageOperation.GET_ALL_MESSAGE_BY_USER_ID, id);
+                return fromDb.Select(x => new UserMessage
                 {
-                    if(um.UserGetterId==id || messageDao.readById(um.MessageId).UserSenderId == id)
-                    {
-                        userMessages.Add(um);
-                    }
+                    Id = x.Id,
+                    MessageId = x.MessageId,
+                    UserGetterId = x.UserGetterId
                 }
+                ).ToList();
             }
-            return userMessages;
         }
 
         public UserMessage readById(int id)
         {
             using (TestDbContext context = new TestDbContext())
             {
-                foreach (UserMessage u in context.UserMessages)
-                {
-                    if (u.Id == id)
-                    {
-                        return u;
-                    }
-                }
+               var fromDb =  context.UserMessageOperation((int)UserMessageOperation.DELETE, id).GetEnumerator();
+                fromDb.MoveNext();
+                return fromDb.Current;
+
             }
-            return null;
         }
 
         public UserMessage update(int id, UserMessage t)

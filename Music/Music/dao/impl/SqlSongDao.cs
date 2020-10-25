@@ -5,16 +5,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Music.dto;
+using Music.db;
 
 namespace Music.dao.impl
 {
     class SqlSongDao : ISongDao
     {
+        private static int NOT_PARAM = -1;
         public void create(Song t)
         {
             using (TestDbContext context = new TestDbContext())
             {
-                context.Songs.Add(t);
+                context.SongOperation((int)SongOperation.CREATE, NOT_PARAM, t.MultimediaData, t.Name, t.Description, t.Type, t.AuthorName, t.ReleaseDate, t.Album, t.Duraction);
                 context.SaveChanges();
             }
         }
@@ -23,62 +25,74 @@ namespace Music.dao.impl
         {
             using (TestDbContext context = new TestDbContext())
             {
-                context.Songs.Attach(t);
-                context.Entry(t).State = EntityState.Deleted;
+                context.SongOperation((int)SongOperation.DELETE, t.Id);
                 context.SaveChanges();
+
             }
         }
 
         public List<Song> getAllSong()
         {
-            List<Song> songs = new List<Song>();
             using (TestDbContext context = new TestDbContext())
             {
-                foreach(Song s  in context.Songs)
+                var fromDb = context.SongOperation((int)SongOperation.GET_ALL);
+                return fromDb.Select(x => new Song
                 {
-                    songs.Add(s);
-                }
+                    Id = x.Id,
+                    MultimediaData = x.MultimediaData,
+                    Name = x.Name,
+                    Description = x.Description,
+                    Type = x.Type,
+                    AuthorName = x.AuthorName,
+                    ReleaseDate = x.ReleaseDate,
+                    Album = x.Album,
+                    Duraction = x.Duraction,
+                }).ToList();
             }
-            return songs;
         }
 
         public Song readById(int id)
         {
             using (TestDbContext context = new TestDbContext())
             {
-                foreach (Song s in context.Songs)
-                {
-                    if (s.Id == id)
-                    {
-                        return s;
-                    }
-                }
+                var fromDb = context.SongOperation((int)SongOperation.READ, id).GetEnumerator();
+                fromDb.MoveNext();
+                return fromDb.Current;
             }
-            return null;
         }
 
+        public List<Song> getAllSongsByPlayListId(int id)
+        {
 
+           
+            using (TestDbContext context = new TestDbContext())
+            {
+                var fromDb = context.SongOperation((int)SongOperation.GET_ALL_SONGS_BY_PLAYLIST_ID,id);
+                return fromDb.Select(x => new Song
+                {
+                    Id = x.Id,
+                    MultimediaData = x.MultimediaData,
+                    Name = x.Name,
+                    Description = x.Description,
+                    Type = x.Type,
+                    AuthorName = x.AuthorName,
+                    ReleaseDate = x.ReleaseDate,
+                    Album = x.Album,
+                    Duraction = x.Duraction,
+                }).ToList();
+            }
+           
+        }
 
         public Song update(int id, Song t)
         {
-            Song song = readById(id);
             using (TestDbContext context = new TestDbContext())
             {
-                song.LocalUrl = t.LocalUrl;
-                song.Name = t.Name;
-                song.NumberOfPlays = t.NumberOfPlays;
-                song.ReleaseDate = t.ReleaseDate;
-                song.Type = t.Type;
-                song.Duraction = song.Duraction;
-                song.Description = t.Description;
-                song.AuthorName = t.AuthorName;
-                song.Album = t.Album;
-
-                context.Songs.Add(song);
-                context.Entry(song).State = EntityState.Modified;
+                var fromDb = context.SongOperation((int)SongOperation.UPDATE, id, t.MultimediaData, t.Name, t.Description, t.Type, t.AuthorName, t.ReleaseDate, t.Album, t.Duraction).GetEnumerator();
                 context.SaveChanges();
+                fromDb.MoveNext();
+                return fromDb.Current;
             }
-            return song;
         }
     }
 }

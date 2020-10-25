@@ -20,9 +20,9 @@ namespace Music.command.other
             int userId = (int)arrData[0];
             Song song = (Song)arrData[1];
 
-            List<User> users = userService.getAllRegisterUser();
+            List<DUser> users = userService.getAllRegisterUser();
             Message message = new Message(string.Format("Song with name {0} , type {1} was added", song.Name, song.Type),userId ,DateTime.Now);
-            foreach(User u in users)
+            foreach(DUser u in users)
             {
                 UserMessage userMessage = new UserMessage();
                 MessageConclusionTime messageConclusionTime = messageConclusionTimeService.findByUsersIds(userId, u.Id);

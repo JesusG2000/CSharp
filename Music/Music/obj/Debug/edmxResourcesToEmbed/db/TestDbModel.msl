@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Хранилище CSharpMVCProjectModelContainer" CdmEntityContainer="TestDbContext">
+    <EntitySetMapping Name="Comment">
+      <EntityTypeMapping TypeName="CSharpMVCProjectModel.Comment">
+        <MappingFragment StoreEntitySet="Comment">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Text" ColumnName="Text" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="SongId" ColumnName="SongId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DUser">
+      <EntityTypeMapping TypeName="CSharpMVCProjectModel.DUser">
+        <MappingFragment StoreEntitySet="DUser">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Login" ColumnName="Login" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Role" ColumnName="Role" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Message">
+      <EntityTypeMapping TypeName="CSharpMVCProjectModel.Message">
+        <MappingFragment StoreEntitySet="Message">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Text" ColumnName="Text" />
+          <ScalarProperty Name="UserSenderId" ColumnName="UserSenderId" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MessageConclusionTime">
+      <EntityTypeMapping TypeName="CSharpMVCProjectModel.MessageConclusionTime">
+        <MappingFragment StoreEntitySet="MessageConclusionTime">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="FirstUserId" ColumnName="FirstUserId" />
+          <ScalarProperty Name="SecondUserId" ColumnName="SecondUserId" />
+          <ScalarProperty Name="FirstUserDate" ColumnName="FirstUserDate" />
+          <ScalarProperty Name="SecondUserDate" ColumnName="SecondUserDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PlayList">
+      <EntityTypeMapping TypeName="CSharpMVCProjectModel.PlayList">
+        <MappingFragment StoreEntitySet="PlayList">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PlayListSong">
+      <EntityTypeMapping TypeName="CSharpMVCProjectModel.PlayListSong">
+        <MappingFragment StoreEntitySet="PlayListSong">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="SongId" ColumnName="SongId" />
+          <ScalarProperty Name="PlayListId" ColumnName="PlayListId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Song">
+      <EntityTypeMapping TypeName="CSharpMVCProjectModel.Song">
+        <MappingFragment StoreEntitySet="Song">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="MultimediaData" ColumnName="MultimediaData" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="AuthorName" ColumnName="AuthorName" />
+          <ScalarProperty Name="ReleaseDate" ColumnName="ReleaseDate" />
+          <ScalarProperty Name="Album" ColumnName="Album" />
+          <ScalarProperty Name="Duraction" ColumnName="Duraction" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserMessage">
+      <EntityTypeMapping TypeName="CSharpMVCProjectModel.UserMessage">
+        <MappingFragment StoreEntitySet="UserMessage">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="MessageId" ColumnName="MessageId" />
+          <ScalarProperty Name="UserGetterId" ColumnName="UserGetterId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="CommentOperation" FunctionName="Хранилище CSharpMVCProjectModel.CommentOperation" />
+    <FunctionImportMapping FunctionImportName="MessageConclusionTimeOperation" FunctionName="Хранилище CSharpMVCProjectModel.MessageConclusionTimeOperation" />
+    <FunctionImportMapping FunctionImportName="MessageOperation" FunctionName="Хранилище CSharpMVCProjectModel.MessageOperation" />
+    <FunctionImportMapping FunctionImportName="PlayListOperation" FunctionName="Хранилище CSharpMVCProjectModel.PlayListOperation" />
+    <FunctionImportMapping FunctionImportName="PlayListSongOperation" FunctionName="Хранилище CSharpMVCProjectModel.PlayListSongOperation" />
+    <FunctionImportMapping FunctionImportName="SongOperation" FunctionName="Хранилище CSharpMVCProjectModel.SongOperation" />
+    <FunctionImportMapping FunctionImportName="UserMessageOperation" FunctionName="Хранилище CSharpMVCProjectModel.UserMessageOperation" />
+    <FunctionImportMapping FunctionImportName="UserOperation" FunctionName="Хранилище CSharpMVCProjectModel.UserOperation" />
+  </EntityContainerMapping>
+</Mapping>

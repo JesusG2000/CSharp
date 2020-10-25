@@ -5,16 +5,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Music.dto;
+using Music.db;
+using Newtonsoft.Json.Linq;
 
 namespace Music.dao.impl
 {
     class SqlPlayListDao : IPlayListDao
     {
+        private static int NOT_PARAM = -1;
         public void create(PlayList t)
         {
             using (TestDbContext context = new TestDbContext())
             {
-                context.PlayLists.Add(t);
+                context.PlayListOperation((int)PlayListOperation.CREATE, NOT_PARAM, t.Name, t.Description, t.UserId);
                 context.SaveChanges();
             }
         }
@@ -23,73 +26,62 @@ namespace Music.dao.impl
         {
             using (TestDbContext context = new TestDbContext())
             {
-                context.PlayLists.Attach(t);
-                context.Entry(t).State = EntityState.Deleted;
+                context.PlayListOperation((int)PlayListOperation.DELETE,t.Id);
                 context.SaveChanges();
             }
         }
 
         public List<PlayList> getAllByUserId(int userId)
         {
-            List<PlayList> lists = new List<PlayList>();
+            
             using (TestDbContext context = new TestDbContext())
             {
-                foreach (PlayList p in context.PlayLists)
+                var fromDb = context.PlayListOperation((int)PlayListOperation.GET_ALL_BY_USER_ID, userId);
+                return fromDb.Select(x => new PlayList
                 {
-                    if (p.UserId == userId)
-                    {
-                        lists.Add(p);
-                    }
-                }
+                    Id = x.Id,
+                    Name = x.Name,
+                    Description = x.Description,
+                    UserId = x.UserId,
+                }).ToList();
+
             }
-            return lists;
+           
         }
 
         public PlayList readById(int id)
         {
             using (TestDbContext context = new TestDbContext())
             {
-                foreach (PlayList p in context.PlayLists)
-                {
-                    if (p.Id == id)
-                    {
-                        return p;
-                    }
-                }
+                var fromDb = context.PlayListOperation((int)PlayListOperation.READ, id).GetEnumerator();
+                fromDb.MoveNext();
+                return fromDb.Current;
             }
-            return null;
+          
         }
 
         public PlayList readByName(string name)
         {
             using (TestDbContext context = new TestDbContext())
             {
-                foreach (PlayList p in context.PlayLists)
-                {
-                    if (p.Name.Trim() == name.Trim())
-                    {
-                        return p;
-                    }
-                }
+                var fromDb = context.PlayListOperation((int)PlayListOperation.READ_BY_NAME, NOT_PARAM,name).GetEnumerator();
+                fromDb.MoveNext();
+                return fromDb.Current;
             }
-            return null;
+            
         }
 
         public PlayList update(int id, PlayList t)
         {
-            PlayList playList = readById(id);
+           
             using (TestDbContext context = new TestDbContext())
             {
-                playList.Name = t.Name;
-                playList.Description = t.Description;
-                playList.UserId = t.UserId;
-
-
-                context.PlayLists.Add(playList);
-                context.Entry(playList).State = EntityState.Modified;
+                var fromDb = context.PlayListOperation((int)PlayListOperation.UPDATE, id, t.Name, t.Description, t.UserId).GetEnumerator();
+                fromDb.MoveNext();
                 context.SaveChanges();
+                return fromDb.Current;
             }
-            return playList;
+            
         }
     }
 }

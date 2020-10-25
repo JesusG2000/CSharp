@@ -15,6 +15,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Music.db;
 
 namespace Music.view
 {
@@ -55,7 +56,7 @@ namespace Music.view
             confirmPassword = ConfirmPassword.Password;
             if (validation.isEquals(password, confirmPassword)&&password.Length>=4 && password.Length<=16)
             {
-                User user = new User(name, password, Role.REGISTERED);
+                DUser user = new DUser(name, password, Role.REGISTERED);
                 if (!(bool)controller.complete(TextCommand.IS_USER_REGISTERED, user))
                 {
                     controller.complete(TextCommand.CREATE_USER, user);

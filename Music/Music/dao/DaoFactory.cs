@@ -18,7 +18,7 @@ namespace Music.dao
         private IPlayListDao playListDao = new SqlPlayListDao();
         private IPlayListSongDao playListSongDao = new SqlPlayListSongDao();
         private ISongDao songDao = new SqlSongDao();
-        private IGoogleSongDao googleSongDao = new GoogleSongDao();
+      
         private IUserMessageDao userMessageDao = new SqlUserMessageDao();
         private DaoFactory()
         {
@@ -55,10 +55,7 @@ namespace Music.dao
         public ISongDao GetSongDao()
         {
             return songDao;
-        } public IGoogleSongDao GetGooleSongDao()
-        {
-            return googleSongDao;
-        }
+        } 
         public IUserMessageDao GetUserMessageDao()
         {
             return userMessageDao;

@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Music.dto;
 using Music.dao;
+using Music.db;
+
 namespace Music.service.impl
 {
     class MessageConclusionTimeService : IMessageConclusionTimeService

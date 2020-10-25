@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.IO;
+using Music.db;
 
 namespace Music.view
 {
@@ -72,12 +73,12 @@ namespace Music.view
         private void loginUser(object sender, RoutedEventArgs e)
         {
             password = Password.Password;
-            User user = new User(login, password);
+            DUser user = new DUser(login, password);
 
-            if ((bool)controller.complete(TextCommand.IS_USER_EXIST, user) && login.Length>0 && password.Length>0)
+            if ((bool)controller.complete(TextCommand.IS_USER_EXIST, user))
             {
-                user = (User)controller.complete(TextCommand.READ_USER_BY_NAME, user.Login);
-                MessageBox.Show("Welcome");
+                user = (DUser)controller.complete(TextCommand.READ_USER_BY_NAME, user.Login);
+               // MessageBox.Show("Welcome");
                 if (user.Role == (int)Role.REGISTERED)
                 {
                     new RegisterUserWindow(user).Show();
@@ -97,6 +98,10 @@ namespace Music.view
 
         private void goToCasualMode(object sender, RoutedEventArgs e)
         {
+            using (TestDbContext context = new TestDbContext())
+            {
+                
+            }
             new CasualWindow().Show();
             Close();
         }

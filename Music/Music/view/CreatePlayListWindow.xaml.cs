@@ -1,4 +1,5 @@
 ﻿using Music.controller;
+using Music.db;
 using Music.util;
 using System;
 using System.Collections.Generic;
@@ -21,11 +22,11 @@ namespace Music.view
     /// </summary>
     public partial class CreatePlayListWindow : Window
     {
-        private User user;
+        private DUser user;
         private Controller controller;
         private PlayListValidation playListValidation;
         private PlayList playList;
-        public CreatePlayListWindow(User user)
+        public CreatePlayListWindow(DUser user)
         {
             this.user = user;
             controller = new Controller();
@@ -35,7 +36,7 @@ namespace Music.view
             ResizeMode = ResizeMode.NoResize;
             updateButton.IsEnabled = false;
         }
-        public CreatePlayListWindow(PlayList playList ,User user)
+        public CreatePlayListWindow(PlayList playList ,DUser user)
         {
             this.user = user;
             controller = new Controller();

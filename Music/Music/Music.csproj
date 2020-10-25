@@ -68,6 +68,9 @@
     <Reference Include="MySql.Data, Version=8.0.19.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <HintPath>..\packages\MySql.Data.8.0.19\lib\net452\MySql.Data.dll</HintPath>
     </Reference>
+    <Reference Include="NAudio, Version=1.10.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NAudio.1.10.0\lib\net35\NAudio.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -86,6 +89,7 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Transactions" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -123,7 +127,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="command\create\CreateComment.cs" />
-    <Compile Include="command\create\CreateGoogleSong.cs" />
     <Compile Include="command\create\CreateMessage.cs" />
     <Compile Include="command\create\CreateMessageConclusionTime.cs" />
     <Compile Include="command\create\CreatePlayList.cs" />
@@ -150,7 +153,6 @@
     <Compile Include="command\other\IsUserExist.cs" />
     <Compile Include="command\other\IsUserRegistered.cs" />
     <Compile Include="command\other\SendNotificationForUsers.cs" />
-    <Compile Include="command\read\ReadGoogleSongById.cs" />
     <Compile Include="command\read\ReadMessageById.cs" />
     <Compile Include="command\read\ReadPlayListByName.cs" />
     <Compile Include="command\read\ReadPlayListSongBySongAndPlayListIds.cs" />
@@ -160,12 +162,7 @@
     <Compile Include="command\update\UpdateMessageConclusionTime.cs" />
     <Compile Include="command\update\UpdatePlayList.cs" />
     <Compile Include="command\update\UpdateSong.cs" />
-    <Compile Include="Comment.cs">
-      <DependentUpon>TestDbModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="dao\ICommentDao.cs" />
-    <Compile Include="dao\IGoogleSongDao.cs" />
-    <Compile Include="dao\impl\GoogleSongDao.cs" />
     <Compile Include="dao\impl\SqlCommentDao.cs" />
     <Compile Include="dao\impl\SqlMessageDao.cs" />
     <Compile Include="dao\impl\SqlMessageConclusionTimeDao.cs" />
@@ -179,26 +176,59 @@
     <Compile Include="dao\IPlayListSongDao.cs" />
     <Compile Include="dao\ISongDao.cs" />
     <Compile Include="dao\IUserMessageDao.cs" />
+    <Compile Include="db\Comment.cs">
+      <DependentUpon>TestDbModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\DUser.cs">
+      <DependentUpon>TestDbModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\Message.cs">
+      <DependentUpon>TestDbModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\MessageConclusionTime.cs">
+      <DependentUpon>TestDbModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\PlayList.cs">
+      <DependentUpon>TestDbModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\PlayListSong.cs">
+      <DependentUpon>TestDbModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\Song.cs">
+      <DependentUpon>TestDbModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\TestDbModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TestDbModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\TestDbModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TestDbModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\TestDbModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TestDbModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="db\UserMessage.cs">
+      <DependentUpon>TestDbModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="dto\CommentOperation.cs" />
     <Compile Include="dto\Dialog.cs" />
+    <Compile Include="dto\MessageConclusionTimeOperation.cs" />
+    <Compile Include="dto\MessageOperation.cs" />
+    <Compile Include="dto\PlayListOperation.cs" />
+    <Compile Include="dto\PlayListSongOperation.cs" />
     <Compile Include="dto\Role.cs" />
-    <Compile Include="Message.cs">
-      <DependentUpon>TestDbModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MessageConclusionTime.cs">
-      <DependentUpon>TestDbModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="PlayList.cs">
-      <DependentUpon>TestDbModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="PlayListSong.cs">
-      <DependentUpon>TestDbModel.tt</DependentUpon>
-    </Compile>
+    <Compile Include="dto\SongOperation.cs" />
+    <Compile Include="dto\UserMessageOperation.cs" />
+    <Compile Include="dto\UserOperation.cs" />
     <Compile Include="service\ICommentService.cs" />
     <Compile Include="service\IDialogService.cs" />
-    <Compile Include="service\IGoogleSongService.cs" />
     <Compile Include="service\impl\CommentService.cs" />
     <Compile Include="service\impl\DialogService.cs" />
-    <Compile Include="service\impl\GoogleSongService.cs" />
     <Compile Include="service\impl\MessageConclusionTimeService.cs" />
     <Compile Include="service\impl\MessageService.cs" />
     <Compile Include="service\impl\PlayListService.cs" />
@@ -211,30 +241,7 @@
     <Compile Include="service\IPlayListSongService.cs" />
     <Compile Include="service\ISongService.cs" />
     <Compile Include="service\IUserMessageService.cs" />
-    <Compile Include="Song.cs">
-      <DependentUpon>TestDbModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="TestDbModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>TestDbModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="TestDbModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>TestDbModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="TestDbModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>TestDbModel.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="User.cs">
-      <DependentUpon>TestDbModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="UserMessage.cs">
-      <DependentUpon>TestDbModel.tt</DependentUpon>
-    </Compile>
+    <Compile Include="util\ExtraField.cs" />
     <Compile Include="util\LoginValidation.cs" />
     <Compile Include="util\PlayListValidation.cs" />
     <Compile Include="util\RegistrateValidation.cs" />
@@ -342,6 +349,13 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="ClassDiagram1.cd" />
+    <EntityDeploy Include="db\TestDbModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>TestDbModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="db\TestDbModel.edmx.diagram">
+      <DependentUpon>TestDbModel.edmx</DependentUpon>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -349,13 +363,6 @@
     </None>
     <None Include="client_secret.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <EntityDeploy Include="TestDbModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>TestDbModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="TestDbModel.edmx.diagram">
-      <DependentUpon>TestDbModel.edmx</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -365,12 +372,15 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="TestDbModel.Context.tt">
+    <Folder Include="music\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="db\TestDbModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>TestDbModel.edmx</DependentUpon>
       <LastGenOutput>TestDbModel.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="TestDbModel.tt">
+    <Content Include="db\TestDbModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>TestDbModel.edmx</DependentUpon>
       <LastGenOutput>TestDbModel.cs</LastGenOutput>

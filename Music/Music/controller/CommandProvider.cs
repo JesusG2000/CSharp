@@ -21,7 +21,7 @@ namespace Music.controller
         CommandProvider()
         {
             pairs.Add(CommandName.CREATE_COMMENT, new CreateComment());
-            pairs.Add(CommandName.CREATE_GOOGLE_SONG, new CreateGoogleSong());
+           
             pairs.Add(CommandName.CREATE_MESSAGE, new CreateMessage());
             pairs.Add(CommandName.CREATE_MESSAGE_CONCLUSION_TIME, new CreateMessageConclusionTime());
             pairs.Add(CommandName.CREATE_PLAY_LIST, new CreatePlayList());
@@ -33,7 +33,7 @@ namespace Music.controller
             pairs.Add(CommandName.CREATE_USER_MESSAGE, new CreateUserMessage());
 
 
-            pairs.Add(CommandName.READ_GOOGLE_SONG_BY_ID, new ReadGoogleSongById());
+        
             pairs.Add(CommandName.READ_MESSAGE_BY_ID, new ReadMessageById());
             pairs.Add(CommandName.READ_PLAY_LIST_BY_NAME, new ReadPlayListByName());
             pairs.Add(CommandName.READ_PLAY_LIST_SONG_BY_SONG_AND_PLAY_LIST_IDS, new ReadPlayListSongBySongAndPlayListIds());

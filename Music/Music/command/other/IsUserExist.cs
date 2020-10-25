@@ -14,7 +14,7 @@ namespace Music.command
         private IUserService userService = ServiceFactory.getInstance().GetUserService();
         public object Execute(object request)
         {
-            return userService.isExist((User)request);
+            return userService.isExist((DUser)request);
         }
     }
 }

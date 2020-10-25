@@ -6,16 +6,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using Music.dto;
+using Music.db;
+using System.Windows.Media.Media3D;
+using Newtonsoft.Json.Linq;
 
 namespace Music.dao.impl
 {
     class SqlMessageDao : IMessageDao
     {
+        private static int NOT_PARAM = -1;
         public void create(Message t)
         {
             using (TestDbContext context = new TestDbContext())
             {
-                context.Messages.Add(t);
+                context.MessageOperation((int)MessageOperation.CREATE, NOT_PARAM, t.Text, t.UserSenderId, t.Date);
                 context.SaveChanges();
             }
         }
@@ -24,11 +28,9 @@ namespace Music.dao.impl
         {
             using (TestDbContext context = new TestDbContext())
             {
-                context.Messages.Add(message);
-                context.SaveChanges();
-
-               List<Message> messages = context.Messages.ToList();
-                return messages.Last();
+                var fromDb =  context.MessageOperation((int)MessageOperation.CREATE_AND_RETURN, NOT_PARAM, message.Text, message.UserSenderId, message.Date).GetEnumerator();
+                fromDb.MoveNext();
+                return fromDb.Current;
             }
         }
 
@@ -36,8 +38,7 @@ namespace Music.dao.impl
         {
             using (TestDbContext context = new TestDbContext())
             {
-                context.Messages.Attach(t);
-                context.Entry(t).State = EntityState.Deleted;
+                context.MessageOperation((int)MessageOperation.DELETE, t.Id);
                 context.SaveChanges();
             }
         }
@@ -46,15 +47,11 @@ namespace Music.dao.impl
         {
             using (TestDbContext context = new TestDbContext())
             {
-                foreach (Message m in context.Messages)
-                {
-                    if (m.Id == id)
-                    {
-                        return m;
-                    }
-                }
+                var fromDb = context.MessageOperation((int)MessageOperation.READ, id).GetEnumerator();
+                fromDb.MoveNext();
+                return fromDb.Current;
             }
-            return null;
+           
         }
 
         public Message update(int id, Message t)

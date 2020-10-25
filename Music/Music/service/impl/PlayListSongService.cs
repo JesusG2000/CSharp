@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Music.dto;
 using Music.dao;
+using Music.db;
 
 namespace Music.service.impl
 {
@@ -21,10 +22,7 @@ namespace Music.service.impl
             playListSongDao.delete(t);
         }
 
-        public List<Song> getAllSongsByPlayListId(int id)
-        {
-            return playListSongDao.getAllSongsByPlayListId(id);
-        }
+      
 
         public PlayListSong readById(int id)
         {

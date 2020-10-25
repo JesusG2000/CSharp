@@ -1,4 +1,5 @@
-﻿using Music.dto;
+﻿using Music.db;
+using Music.dto;
 using Music.dto.dto;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,6 @@ namespace Music.service
     interface IDialogService
     {
         List<Dialog> createDialogs(List<UserMessage> userMessages, int ownerId);
-        Dialog getDialogByUsers(List<Dialog> dialogs, User ownUser, User otherUser);
+        Dialog getDialogByUsers(List<Dialog> dialogs, DUser ownUser, DUser otherUser);
     }
 }

@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Music.util;
 using System.Threading;
+using Music.db;
 
 namespace Music.view
 {
@@ -24,12 +25,12 @@ namespace Music.view
     /// </summary>
     public partial class DialogsWindow : Window
     {
-        private User user;
+        private DUser user;
         private Dialog selectedDialog;
         private Controller controller;
         private bool endDialogs;
 
-        public DialogsWindow(User user)
+        public DialogsWindow(DUser user)
         {
             this.user = user;
             controller = new Controller();
@@ -41,7 +42,7 @@ namespace Music.view
         private void loadInUserDialogGrid(object sender, RoutedEventArgs e)
         {
             List<Dialog> dialogs = (List<Dialog>)controller.complete(TextCommand.CREATE_USER_DIALOGS, user.Id);
-            registeredUsers.ItemsSource = (List<User>)controller.complete(TextCommand.GET_ALL_REGISTERED_USERS, "");
+            registeredUsers.ItemsSource = (List<DUser>)controller.complete(TextCommand.GET_ALL_REGISTERED_USERS, "");
             if (dialogs.Count == 0)
             {
 
@@ -85,7 +86,7 @@ namespace Music.view
             string[] usersNames = registeredUsers.Text.Split(',');
             foreach (string s in usersNames)
             {
-                User addedUser = (User)controller.complete(TextCommand.READ_USER_BY_NAME, s);
+                DUser addedUser = (DUser)controller.complete(TextCommand.READ_USER_BY_NAME, s);
                 if (addedUser != null && addedUser.Id != user.Id && !isExistInDialog(addedUser.Id))
                 {
 
@@ -141,7 +142,7 @@ namespace Music.view
                 {
                     selectedDialog = dialog;
                 }
-                User otherUser = selectedDialog.OtherUser;
+                DUser otherUser = selectedDialog.OtherUser;
                 Message message = new Message(messageTextField.Text, user.Id, DateTime.Now);
                 UserMessage userMessage = new UserMessage();
 
@@ -152,12 +153,12 @@ namespace Music.view
 
                 messageTextField.Text = "";
                 loadInUserDialogGrid(sender, e);
-                selectedDialog = (Dialog)controller.complete(TextCommand.CREATE_USER_DIALOG, new User[] { user, otherUser });
+                selectedDialog = (Dialog)controller.complete(TextCommand.CREATE_USER_DIALOG, new DUser[] { user, otherUser });
                 showUsersMessages(selectedDialog.UserMessage, otherUser);
 
             }
         }
-        private void showUsersMessages(List<UserMessage> userMessages, User otherUser)
+        private void showUsersMessages(List<UserMessage> userMessages, DUser otherUser)
         {
             Message message = null;
             List<object> messageList = new List<object>();
@@ -234,7 +235,7 @@ namespace Music.view
            
             while (!endDialogs)
             {
-                selectedDialog = (Dialog)controller.complete(TextCommand.CREATE_USER_DIALOG, new User[] { user, selectedDialog.OtherUser });
+                selectedDialog = (Dialog)controller.complete(TextCommand.CREATE_USER_DIALOG, new DUser[] { user, selectedDialog.OtherUser });
                 showUsersMessages(selectedDialog.UserMessage, selectedDialog.OtherUser);
                 Thread.Sleep(1000);
             }

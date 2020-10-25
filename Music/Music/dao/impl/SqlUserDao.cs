@@ -6,131 +6,119 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using Music.dto;
+using Music.db;
+
 
 namespace Music.dao.impl
 {
     class SqlUserDao : IUserDao
     {
-        public void create(User t)
+        private static int NOT_PARAM = -1;
+        public void create(DUser t)
         {
             using (TestDbContext context = new TestDbContext())
             {
-                context.Users.Add(t);
+                context.UserOperation((int)UserOperation.CREATE, NOT_PARAM, t.Login, t.Password, t.Role);
                 context.SaveChanges();
             }
         }
 
-        public void delete(User t)
+        public void delete(DUser t)
         {
             using (TestDbContext context = new TestDbContext())
             {
-                context.Users.Attach(t);
-                context.Entry(t).State = EntityState.Deleted;
+                context.UserOperation((int)UserOperation.DELETE, t.Id);
                 context.SaveChanges();
             }
         }
 
-        public List<User> getAllRegisterUser()
+        public List<DUser> getAllRegisterUser()
         {
-            List<User> users = new List<User>();
+           
             using (TestDbContext context = new TestDbContext())
             {
-                foreach (User u in context.Users)
+                var usersFormDb = context.UserOperation((int)UserOperation.GET_ALL_REGISTERED);
+                return usersFormDb.Select(x => new DUser
                 {
-                    if (u.Role == (int)Role.REGISTERED)
-                    {
-                        users.Add(u);
-                    }
-                }
+                    Id = x.Id,
+                    Login = x.Login,
+                    Password = x.Password,
+                    Role = x.Role
+
+                }).ToList();
             }
-            return users;
+
         }
 
-        public List<User> getAllUser()
+        public List<DUser> getAllUser()
         {
             throw new NotImplementedException();
         }
 
-        public bool isExist(User user)
+        public bool isExist(DUser user)
         {
-           
+
             using (TestDbContext context = new TestDbContext())
             {
-                foreach (User u in context.Users)
-                {
-                    if (u.Login.Trim().Equals(user.Login.Trim()) && u.Password.Trim().Equals(user.Password.Trim()))
-                    {
-                        return true;
-                    }
-                }
+                var userFromDb = context.UserOperation((int)UserOperation.IS_EXIST, NOT_PARAM, user.Login, user.Password).GetEnumerator();
+                return userFromDb.MoveNext();
+
 
             }
-            return false;
+
         }
 
-        public bool isRegistered(User user)
+        public bool isRegistered(DUser user)
         {
             using (TestDbContext context = new TestDbContext())
             {
-              
-              foreach(User u in context.Users)
-                {
-                    if (u.Login.Trim().Equals(user.Login.Trim()))
-                    {
-                        return true;
-                    }
-                }
-               
+
+                var userFromDb = context.UserOperation((int)UserOperation.IS_REGISTERED, NOT_PARAM, user.Login).GetEnumerator();
+
+                return userFromDb.MoveNext();
+
+
             }
-            return false;
+
         }
 
-        public User readById(int id)
+        public DUser readById(int id)
         {
             using (TestDbContext context = new TestDbContext())
             {
-                foreach (User u in context.Users)
-                {
-                    if (u.Id == id)
-                    {
-                        return u;
-                    }
-                }
+                var userFromDb = context.UserOperation((int)UserOperation.READ, id).GetEnumerator();
+                userFromDb.MoveNext();
+                return userFromDb.Current;
+
+
             }
-            return null;
+
         }
 
-        public User readByName(string name)
+        public DUser readByLogin(string name)
         {
             using (TestDbContext context = new TestDbContext())
             {
-                foreach (User u in context.Users)
-                {
-                    if (u.Login.Trim().Equals(name.Trim()))
-                    {
-                        return u;
-                    }
-                }
+                var userFromDb = context.UserOperation((int)UserOperation.READ_BY_LOGIN, NOT_PARAM, name).GetEnumerator();
+                userFromDb.MoveNext();
+                return userFromDb.Current;
 
             }
-            return null;
-           
+
         }
 
-        public User update(int id, User t)
+        public DUser update(int id, DUser t)
         {
-            User user = readById(id);
+
             using (TestDbContext context = new TestDbContext())
             {
-                user.Login = t.Login;
-                user.Password = t.Password;
-                user.Role = t.Role;
-                context.Users.Add(user);
-                context.Entry(user).State = EntityState.Modified;
-                context.SaveChanges();
+                var userFromDb = context.UserOperation((int)UserOperation.UPDATE, id, t.Login, t.Password, t.Role).GetEnumerator();
+                userFromDb.MoveNext();
+
+                return userFromDb.Current;
 
             }
-            return user;
+
         }
     }
 }

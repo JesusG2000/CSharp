@@ -10,10 +10,10 @@ namespace Music.command.other
 {
     class GetAllSongsByPlayListId : ICommand
     {
-        private IPlayListSongService playListSongService = ServiceFactory.getInstance().GetPlayListSongService();
+        private ISongService songService = ServiceFactory.getInstance().GetSongService();
         public object Execute(object request)
         {
-            return playListSongService.getAllSongsByPlayListId((int)request);
+            return songService.getAllSongsByPlayListId((int)request);
         }
     }
 }
